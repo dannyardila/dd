@@ -2,10 +2,10 @@
 // prompted by your browser. If you see the error "The Geolocation service
 // failed.", it means you probably did not give permission for the browser to
 // locate you.
-let map, infoWindow;
+let map: google.maps.Map, infoWindow: google.maps.InfoWindow;
 
-function initMap() {
-  map = new google.maps.Map(document.getElementById("map"), {
+function initMap(): void {
+  map = new google.maps.Map(document.getElementById("map") as HTMLElement, {
     center: { lat: -34.397, lng: 150.644 },
     zoom: 6,
   });
@@ -15,12 +15,14 @@ function initMap() {
 
   locationButton.textContent = "Pan to Current Location";
   locationButton.classList.add("custom-map-control-button");
+
   map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+
   locationButton.addEventListener("click", () => {
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
+        (position: GeolocationPosition) => {
           const pos = {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
@@ -32,17 +34,21 @@ function initMap() {
           map.setCenter(pos);
         },
         () => {
-          handleLocationError(true, infoWindow, map.getCenter());
+          handleLocationError(true, infoWindow, map.getCenter()!);
         }
       );
     } else {
       // Browser doesn't support Geolocation
-      handleLocationError(false, infoWindow, map.getCenter());
+      handleLocationError(false, infoWindow, map.getCenter()!);
     }
   });
 }
 
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+function handleLocationError(
+  browserHasGeolocation: boolean,
+  infoWindow: google.maps.InfoWindow,
+  pos: google.maps.LatLng
+) {
   infoWindow.setPosition(pos);
   infoWindow.setContent(
     browserHasGeolocation
@@ -52,4 +58,9 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.open(map);
 }
 
+declare global {
+  interface Window {
+    initMap: () => void;
+  }
+}
 window.initMap = initMap;

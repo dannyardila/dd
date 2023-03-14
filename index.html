@@ -1,24 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <script src='https://www.airvisual.com/scripts/api.js?key=33f65da4-d62c-4202-8fe4-11f6f1acbb95'></script>
+<html>
+  <head>
+    <title>Geolocation</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
-  
-    <title>Clima en tu lugar</title>
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <script type="module" src="./index.js"></script>
     
-
-</head>
-
-<body>
-
+    <script src="./miarchivo.ts"></script>
+  </head>
+  <body>
     <div id="map"></div>
-    
-    <form id="city-form">
-        <input type="text" id="city-input" placeholder="Buscar ciudad...">
-        <button type="submit">Buscar</button>
-      </form>
-      <div id="map-container"></div>
 
-    
-</body>
+    <!-- 
+      The `defer` attribute causes the callback to execute after the full HTML
+      document has been parsed. For non-blocking uses, avoiding race conditions,
+      and consistent behavior across browsers, consider loading using Promises
+      with https://www.npmjs.com/package/@googlemaps/js-api-loader.
+      -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly"
+      defer
+    ></script>
+  </body>
 </html>
